@@ -42,6 +42,15 @@
         <table id="versiontable" class="table">
             <thead>
                 <tr>
+                    <th></th>
+                    <th></th>
+                    <th colspan="8" style="padding-bottom: 30px;">
+                        <div id="line" class="bg-primary" style="/*background: #bdd7ee;*/ padding: 5px;">
+                            Available API Set
+                        </div>
+                    </th>
+                </tr>
+                <tr class="platform-row">
                     <th>.NET Standard</th>
                     <th><select /></th>
                     <th style="text-align:center">1.0</th>
@@ -55,7 +64,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
+                <tr class="platform-row">
                     <th>.NET Core</th>
                     <td><select /></td>
                     <td align="center">→</td>
@@ -67,7 +76,7 @@
                     <td align="center">1.0</td>
                     <td align="center">vNext</td>
                 </tr>
-                <tr>
+                <tr class="platform-row">
                     <th>.NET Framework</th>
                     <td><select /></td>
                     <td align="center">→</td>
@@ -79,7 +88,7 @@
                     <td align="center">→</td>
                     <td align="center">4.6.1</td>
                 </tr>
-                <tr>
+                <tr class="platform-row">
                     <th>Mono</th>
                     <td><select /></td>
                     <td align="center">→</td>
@@ -91,7 +100,7 @@
                     <td align="center">4.6</td>
                     <td align="center">vNext</td>
                 </tr>
-                <tr>
+                <tr class="platform-row">
                     <th>Xamarin.iOS</th>
                     <td><select /></td>
                     <td align="center">→</td>
@@ -103,7 +112,7 @@
                     <td align="center">10.0</td>
                     <td align="center">vNext</td>
                 </tr>
-                <tr>
+                <tr class="platform-row">
                     <th>Xamarin.Android</th>
                     <td><select /></td>
                     <td align="center">→</td>
@@ -115,7 +124,7 @@
                     <td align="center">7.0</td>
                     <td align="center">vNext</td>
                 </tr>
-                <tr>
+                <tr class="platform-row">
                     <th>Universal Windows Platform</th>
                     <td><select /></td>
                     <td align="center">→</td>
@@ -127,7 +136,7 @@
                     <td align="center">→</td>
                     <td align="center">vNext</td>
                 </tr>
-                <tr>
+                <tr class="platform-row">
                     <th>Windows</th>
                     <td><select /></td>
                     <td align="center">→</td>
@@ -139,7 +148,7 @@
                     <td align="center"></td>
                     <td align="center"></td>
                 </tr>
-                <tr>
+                <tr class="platform-row">
                     <th>Windows Phone</th>
                     <td><select /></td>
                     <td align="center">→</td>
@@ -151,7 +160,7 @@
                     <td align="center"></td>
                     <td align="center"></td>
                 </tr>
-                <tr>
+                <tr class="platform-row">
                     <th>Windows Phone Silverlight</th>
                     <td><select /></td>
                     <td align="center">8.0</td>
@@ -170,8 +179,6 @@
           <label><input id="platformCheckbox" type="checkbox" value="">Enable advanced selection</label>
         </div>
 
-        <div id="line" class="bg-primary" title="Indicates how many APIs are available to you."></div>
-
         <hr />
         <footer>
             <p>&copy; Immo Landwerth</p>
@@ -186,23 +193,24 @@
 
 
         <script type="text/javascript">
-            function getColumn(cell) {
-                return cell.closest("tr").children().index(cell) - 2;
-            }
-
-            function getRow(cell) {
-                var row = cell.closest("tr");
-                var offset = 0;
-                var isHeader = row.parent().is("tbody");
-                if (isHeader) {
-                    var headerCount = row.parent().prev().children().length;
-                    offset = headerCount;
-                }
-
-                return row.parent().children().index(row) + offset;
-            }
 
             $(function(){
+
+                function getColumn(cell) {
+                    return cell.closest("tr").children().index(cell) - 2;
+                }
+
+                function getRow(cell) {
+                    var row = cell.closest("tr");
+                    var offset = 0;
+                    var isHeader = row.parent().is("tbody");
+                    if (isHeader) {
+                        var headerCount = row.parent().prev().children().length;
+                        offset = headerCount;
+                    }
+
+                    return row.parent().children().index(row) + offset - 1;
+                }
 
                 function updateApiChart() {
 
@@ -233,9 +241,9 @@
 
                     var columnWidth = tableWidth - firstColumnLeft + tableLeft;
 
-                    var height = 5;
+                    var height = 30;
                     var left = firstColumnLeft;
-                    var top = tableTop - height - 2;
+                    var top = tableTop;
                     var width = columnWidth * percentage;
 
                     $('#line').css({'width':width, 'height':height, 'left':left, 'top':top, 'position':'absolute'});
@@ -244,7 +252,7 @@
                 function recomputePlatformVersions() {
                     var netstandardSelector = $("#versiontable").find("select:first");
                     var index = netstandardSelector.prop("selectedIndex");
-                    $("#versiontable tr").each(function() {
+                    $("#versiontable tr.platform-row").each(function() {
                         var selector = $(this).find("select:first");
 
                         $(this).find("td, th").slice(2).each(function() {
@@ -306,7 +314,7 @@
                     updateApiChart();
                 });
 
-                $("#versiontable tr").each(function() {
+                $("#versiontable tr.platform-row").each(function() {
                     var selector = $(this).find("select:first");
                     var selectorRow = getRow(selector);
                     if (selectorRow == 0) {
