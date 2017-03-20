@@ -171,6 +171,8 @@
             </tbody>
         </table>
 
+        <div id="line" class="bg-primary"></div>
+
         <hr />
         <footer>
             <p>&copy; Immo Landwerth</p>
@@ -202,6 +204,43 @@
             }
 
             $(function(){
+
+                function updateApiChart() {
+
+                    var apiCounts = [
+                        7949,
+                        10239,
+                        10285,
+                        13122,
+                        13140,
+                        13355,
+                        13501,
+                        32638
+                    ];
+
+                    var netstandardSelector = $("#versiontable").find("select:first");
+                    var index = netstandardSelector.prop("selectedIndex");
+                    var apiCount = apiCounts[index];
+                    var maxApi = Math.max(...apiCounts);
+                    var percentage = apiCount / maxApi;
+
+                    var table = $("#versiontable");
+                    var tableTop = table.position().top;
+                    var tableLeft = table.position().left;
+                    var tableWidth = table.width();
+
+                    var firstColumn = table.find("tr:first").children().slice(2).first();
+                    var firstColumnLeft = firstColumn.position().left;
+
+                    var columnWidth = tableWidth - firstColumnLeft + tableLeft;
+
+                    var height = 5;
+                    var left = firstColumnLeft;
+                    var top = tableTop - height - 2;
+                    var width = columnWidth * percentage;
+
+                    $('#line').css({'width':width, 'height':height, 'left':left, 'top':top, 'position':'absolute'});
+                }
 
                 function recomputePlatformVersions() {
                     var netstandardSelector = $("#versiontable").find("select:first");
@@ -260,8 +299,13 @@
                     if (currentNetStandardVersion != effectiveVersion) {
                         netstandardSelector.prop("selectedIndex", effectiveVersion);
                         recomputePlatformVersions();
+                        updateApiChart();
                     }
                 }
+
+                $(window).on("resize", function(){
+                    updateApiChart();
+                });
 
                 $("#versiontable tr").each(function() {
                     var selector = $(this).find("select:first");
@@ -269,6 +313,7 @@
                     if (selectorRow == 0) {
                         selector.change(function() {
                             recomputePlatformVersions();
+                            updateApiChart();
                         });
                     }
                     else {
@@ -293,6 +338,7 @@
                 });
 
                 recomputePlatformVersions();
+                updateApiChart();
             });
         </script>
 
