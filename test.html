@@ -55,7 +55,7 @@
             <tbody>
                 <tr>
                     <th>.NET Core</th>
-                    <td></td>
+                    <td><select /></td>
                     <td align="center">→</td>
                     <td align="center">→</td>
                     <td align="center">→</td>
@@ -67,7 +67,7 @@
                 </tr>
                 <tr>
                     <th>.NET Framework</th>
-                    <td></td>
+                    <td><select /></td>
                     <td align="center">→</td>
                     <td align="center">4.5</td>
                     <td align="center">4.5.1</td>
@@ -79,7 +79,7 @@
                 </tr>
                 <tr>
                     <th>Mono</th>
-                    <td></td>
+                    <td><select /></td>
                     <td align="center">→</td>
                     <td align="center">→</td>
                     <td align="center">→</td>
@@ -91,7 +91,7 @@
                 </tr>
                 <tr>
                     <th>Xamarin.iOS</th>
-                    <td></td>
+                    <td><select /></td>
                     <td align="center">→</td>
                     <td align="center">→</td>
                     <td align="center">→</td>
@@ -103,7 +103,7 @@
                 </tr>
                 <tr>
                     <th>Xamarin.Android</th>
-                    <td></td>
+                    <td><select /></td>
                     <td align="center">→</td>
                     <td align="center">→</td>
                     <td align="center">→</td>
@@ -115,7 +115,7 @@
                 </tr>
                 <tr>
                     <th>Universal Windows Platform</th>
-                    <td></td>
+                    <td><select /></td>
                     <td align="center">→</td>
                     <td align="center">→</td>
                     <td align="center">→</td>
@@ -127,7 +127,7 @@
                 </tr>
                 <tr>
                     <th>Windows</th>
-                    <td></td>
+                    <td><select /></td>
                     <td align="center">→</td>
                     <td align="center">8.0</td>
                     <td align="center">8.1</td>
@@ -139,7 +139,7 @@
                 </tr>
                 <tr>
                     <th>Windows Phone</th>
-                    <td></td>
+                    <td><select /></td>
                     <td align="center">→</td>
                     <td align="center">→</td>
                     <td align="center">8.1</td>
@@ -151,7 +151,7 @@
                 </tr>
                 <tr>
                     <th>Windows Phone Silverlight</th>
-                    <td></td>
+                    <td><select /></td>
                     <td align="center">8.0</td>
                     <td align="center"></td>
                     <td align="center"></td>
@@ -179,24 +179,32 @@
 
         <script type="text/javascript">
             function getColumn(cell) {
-                return cell.parent("tr").children().index(cell) - 2;
-
+                return cell.closest("tr").children().index(cell) - 2;
             }
 
             function getRow(cell) {
-                var row = cell.parent("tr");
-                return row.parent().children().index(row);
+                var row = cell.closest("tr");
+                var offset = 0;
+                var isHeader = row.parent().is("tbody");
+                if (isHeader) {
+                    var headerCount = row.parent().prev().children().length;
+                    offset = headerCount;
+                }
+
+                return row.parent().children().index(row) + offset;
             }
 
             $(function(){
-                var netstandardSelector = $('#versiontable').find("select:first");
 
-                function updateTable() {
+                function recomputePlatformVersions() {
+                    var netstandardSelector = $("#versiontable").find("select:first");
                     var index = netstandardSelector.prop("selectedIndex");
-                    $('#versiontable tr').each(function() {
+                    $("#versiontable tr").each(function() {
+                        var selector = $(this).find("select:first");
+
                         $(this).find("td, th").slice(2).each(function() {
                             var text = $(this).text();
-                            if (text != '') {
+                            if (text != "") {
                                 var col = getColumn($(this));
 
                                 if (col >= index) {
@@ -211,32 +219,73 @@
                         $(this).find("td, th").slice(2).filter(function() {
                             var col = getColumn($(this));
                             var text = $(this).text();
-                            return col >= index && text != '→' && text != '';
+                            return col >= index && text != "→";
                         }).first().each(function() {
-                            $(this).css("background", "green").css("color", "white");
+                            var text = $(this).text();
+                            if (selector != netstandardSelector)
+                                selector.val(text);
+
+                            if (text != "")
+                                $(this).css("background", "green").css("color", "white");
                         });
                     });
                 }
 
-                $('#versiontable tr').each(function() {
-                    var selector = $(this).find("select:first");
-                    selector.width("75px");
+                function recomputeNetStandardVersion() {
 
-                    selector.change(function() {
-                        updateTable();
+                    var effectiveVersion = $("#versiontable tbody>tr:first td").length - 2;
+
+                    $("#versiontable tbody>tr").each(function() {
+                        var row = $(this);
+                        var selector = row.find("select:first");
+                        var selectedValue = selector.val();
+                        var columnIndex = row.find("td, th").slice(2).filter(function() {
+                            return $(this).text() == selectedValue && selectedValue != "";
+                        }).first().prevAll().length;
+                        var maxNetstandardVersion = columnIndex - 2;
+                        if (maxNetstandardVersion >= 0 && effectiveVersion > maxNetstandardVersion)
+                            effectiveVersion = maxNetstandardVersion;
                     });
+
+                    var netstandardSelector = $("#versiontable").find("select:first");
+                    var currentNetStandardVersion = netstandardSelector.prop("selectedIndex");
+
+                    if (currentNetStandardVersion != effectiveVersion) {
+                        netstandardSelector.prop("selectedIndex", effectiveVersion);
+                        recomputePlatformVersions();
+                    }
+                }
+
+                $("#versiontable tr").each(function() {
+                    var selector = $(this).find("select:first");
+                    var selectorRow = getRow(selector);
+                    if (selectorRow == 0) {
+                        selector.change(function() {
+                            recomputePlatformVersions();
+                        });
+                    }
+                    else {
+                        selector.change(function() {
+                            recomputeNetStandardVersion();
+                        });
+                        selector.append($("<option></option>")
+                                            .attr("value", "")
+                                            .text("N/A"));
+                    }
+
+                    selector.width("75px");
 
                     $(this).find("td, th").slice(2).each(function() {
                         var text = $(this).text();
                         if (text != "→" && text != "") {
                             selector.append($("<option></option>")
                                                 .attr("value", text)
-                                                .text(text + '+'));
+                                                .text(text + "+"));
                         }
                     });
                 });
 
-                updateTable();
+                recomputePlatformVersions();
             });
         </script>
 
