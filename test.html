@@ -1,0 +1,244 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>.NET Standard Selector</title>
+
+        <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/css/bootstrap.min.css" />
+<meta name="x-stylesheet-fallback-test" content="" class="sr-only" /><script>!function(a,b,c,d){var e,f=document,g=f.getElementsByTagName("SCRIPT"),h=g[g.length-1].previousElementSibling,i=f.defaultView&&f.defaultView.getComputedStyle?f.defaultView.getComputedStyle(h):h.currentStyle;if(i&&i[a]!==b)for(e=0;e<c.length;e++)f.write('<link href="'+c[e]+'" '+d+"/>")}("position","absolute",["\/lib\/bootstrap\/dist\/css\/bootstrap.min.css"], "rel=\u0022stylesheet\u0022 ");</script>
+
+</head>
+<body>
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">.NET Standard</a>
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li><a href="#">Home</a></li>
+                    <li><a href="https://aka.ms/netstandardfaq">FAQ</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container body-content">
+        <h2>About.</h2>
+        <h3>Which .NET Standard version should I target?</h3>
+        <p>
+            The rule of thumb is: target the lowest version you get away with.
+        </p>
+
+        <table id="versiontable" class="table">
+            <thead>
+                <tr>
+                    <th>.NET Standard</th>
+                    <th><select /></th>
+                    <th style="text-align:center">1.0</th>
+                    <th style="text-align:center">1.1</th>
+                    <th style="text-align:center">1.2</th>
+                    <th style="text-align:center">1.3</th>
+                    <th style="text-align:center">1.4</th>
+                    <th style="text-align:center">1.5</th>
+                    <th style="text-align:center">1.6</th>
+                    <th style="text-align:center">2.0</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th>.NET Core</th>
+                    <td></td>
+                    <td align="center">→</td>
+                    <td align="center">→</td>
+                    <td align="center">→</td>
+                    <td align="center">→</td>
+                    <td align="center">→</td>
+                    <td align="center">→</td>
+                    <td align="center">1.0</td>
+                    <td align="center">vNext</td>
+                </tr>
+                <tr>
+                    <th>.NET Framework</th>
+                    <td></td>
+                    <td align="center">→</td>
+                    <td align="center">4.5</td>
+                    <td align="center">4.5.1</td>
+                    <td align="center">4.6</td>
+                    <td align="center">→</td>
+                    <td align="center">→</td>
+                    <td align="center">→</td>
+                    <td align="center">4.6.1</td>
+                </tr>
+                <tr>
+                    <th>Mono</th>
+                    <td></td>
+                    <td align="center">→</td>
+                    <td align="center">→</td>
+                    <td align="center">→</td>
+                    <td align="center">→</td>
+                    <td align="center">→</td>
+                    <td align="center">→</td>
+                    <td align="center">4.6</td>
+                    <td align="center">vNext</td>
+                </tr>
+                <tr>
+                    <th>Xamarin.iOS</th>
+                    <td></td>
+                    <td align="center">→</td>
+                    <td align="center">→</td>
+                    <td align="center">→</td>
+                    <td align="center">→</td>
+                    <td align="center">→</td>
+                    <td align="center">→</td>
+                    <td align="center">10.0</td>
+                    <td align="center">vNext</td>
+                </tr>
+                <tr>
+                    <th>Xamarin.Android</th>
+                    <td></td>
+                    <td align="center">→</td>
+                    <td align="center">→</td>
+                    <td align="center">→</td>
+                    <td align="center">→</td>
+                    <td align="center">→</td>
+                    <td align="center">→</td>
+                    <td align="center">7.0</td>
+                    <td align="center">vNext</td>
+                </tr>
+                <tr>
+                    <th>Universal Windows Platform</th>
+                    <td></td>
+                    <td align="center">→</td>
+                    <td align="center">→</td>
+                    <td align="center">→</td>
+                    <td align="center">→</td>
+                    <td align="center">10.0</td>
+                    <td align="center">→</td>
+                    <td align="center">→</td>
+                    <td align="center">vNext</td>
+                </tr>
+                <tr>
+                    <th>Windows</th>
+                    <td></td>
+                    <td align="center">→</td>
+                    <td align="center">8.0</td>
+                    <td align="center">8.1</td>
+                    <td align="center"></td>
+                    <td align="center"></td>
+                    <td align="center"></td>
+                    <td align="center"></td>
+                    <td align="center"></td>
+                </tr>
+                <tr>
+                    <th>Windows Phone</th>
+                    <td></td>
+                    <td align="center">→</td>
+                    <td align="center">→</td>
+                    <td align="center">8.1</td>
+                    <td align="center"></td>
+                    <td align="center"></td>
+                    <td align="center"></td>
+                    <td align="center"></td>
+                    <td align="center"></td>
+                </tr>
+                <tr>
+                    <th>Windows Phone Silverlight</th>
+                    <td></td>
+                    <td align="center">8.0</td>
+                    <td align="center"></td>
+                    <td align="center"></td>
+                    <td align="center"></td>
+                    <td align="center"></td>
+                    <td align="center"></td>
+                    <td align="center"></td>
+                    <td align="center"></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <hr />
+        <footer>
+            <p>&copy; Immo Landwerth</p>
+        </footer>
+    </div>
+        <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-2.2.0.min.js" crossorigin="anonymous" integrity="sha384-K+ctZQ+LL8q6tP7I94W+qzQsfRV2a+AfHIi9k8z8l9ggpc8X+Ytst4yBo/hH+8Fk">
+        </script>
+<script>(window.jQuery||document.write("\u003Cscript src=\u0022\/lib\/jquery\/dist\/jquery.min.js\u0022 crossorigin=\u0022anonymous\u0022 integrity=\u0022sha384-K\u002BctZQ\u002BLL8q6tP7I94W\u002BqzQsfRV2a\u002BAfHIi9k8z8l9ggpc8X\u002BYtst4yBo\/hH\u002B8Fk\u0022\u003E\u003C\/script\u003E"));</script>
+        <script src="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/bootstrap.min.js" crossorigin="anonymous" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa">
+        </script>
+<script>(window.jQuery && window.jQuery.fn && window.jQuery.fn.modal||document.write("\u003Cscript src=\u0022\/lib\/bootstrap\/dist\/js\/bootstrap.min.js\u0022 crossorigin=\u0022anonymous\u0022 integrity=\u0022sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa\u0022\u003E\u003C\/script\u003E"));</script>
+
+
+        <script type="text/javascript">
+            function getColumn(cell) {
+                return cell.parent("tr").children().index(cell) - 2;
+
+            }
+
+            function getRow(cell) {
+                var row = cell.parent("tr");
+                return row.parent().children().index(row);
+            }
+
+            $(function(){
+                var netstandardSelector = $('#versiontable').find("select:first");
+
+                function updateTable() {
+                    var index = netstandardSelector.prop("selectedIndex");
+                    $('#versiontable tr').each(function() {
+                        $(this).find("td, th").slice(2).each(function() {
+                            var text = $(this).text();
+                            if (text != '') {
+                                var col = getColumn($(this));
+
+                                if (col >= index) {
+                                    $(this).attr("class","success");
+                                } else {
+                                    $(this).attr("class","danger");
+                                }
+
+                                $(this).css("background", "").css("color", "");
+                            }
+                        });
+                        $(this).find("td, th").slice(2).filter(function() {
+                            var col = getColumn($(this));
+                            var text = $(this).text();
+                            return col >= index && text != '→' && text != '';
+                        }).first().each(function() {
+                            $(this).css("background", "green").css("color", "white");
+                        });
+                    });
+                }
+
+                $('#versiontable tr').each(function() {
+                    var selector = $(this).find("select:first");
+                    selector.width("75px");
+
+                    selector.change(function() {
+                        updateTable();
+                    });
+
+                    $(this).find("td, th").slice(2).each(function() {
+                        var text = $(this).text();
+                        if (text != "→" && text != "") {
+                            selector.append($("<option></option>")
+                                                .attr("value", text)
+                                                .text(text + '+'));
+                        }
+                    });
+                });
+
+                updateTable();
+            });
+        </script>
+
+</body>
+</html>
