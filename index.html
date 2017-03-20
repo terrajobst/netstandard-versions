@@ -67,79 +67,79 @@
                 <tr class="platform-row">
                     <th>.NET Core</th>
                     <td><select /></td>
-                    <td align="center">→</td>
-                    <td align="center">→</td>
-                    <td align="center">→</td>
-                    <td align="center">→</td>
-                    <td align="center">→</td>
-                    <td align="center">→</td>
+                    <td align="center"></td>
+                    <td align="center"></td>
+                    <td align="center"></td>
+                    <td align="center"></td>
+                    <td align="center"></td>
+                    <td align="center"></td>
                     <td align="center">1.0</td>
                     <td align="center">vNext</td>
                 </tr>
                 <tr class="platform-row">
                     <th>.NET Framework</th>
                     <td><select /></td>
-                    <td align="center">→</td>
+                    <td align="center"></td>
                     <td align="center">4.5</td>
                     <td align="center">4.5.1</td>
                     <td align="center">4.6</td>
-                    <td align="center">→</td>
-                    <td align="center">→</td>
-                    <td align="center">→</td>
+                    <td align="center"></td>
+                    <td align="center"></td>
+                    <td align="center"></td>
                     <td align="center">4.6.1</td>
                 </tr>
                 <tr class="platform-row">
                     <th>Mono</th>
                     <td><select /></td>
-                    <td align="center">→</td>
-                    <td align="center">→</td>
-                    <td align="center">→</td>
-                    <td align="center">→</td>
-                    <td align="center">→</td>
-                    <td align="center">→</td>
+                    <td align="center"></td>
+                    <td align="center"></td>
+                    <td align="center"></td>
+                    <td align="center"></td>
+                    <td align="center"></td>
+                    <td align="center"></td>
                     <td align="center">4.6</td>
                     <td align="center">vNext</td>
                 </tr>
                 <tr class="platform-row">
                     <th>Xamarin.iOS</th>
                     <td><select /></td>
-                    <td align="center">→</td>
-                    <td align="center">→</td>
-                    <td align="center">→</td>
-                    <td align="center">→</td>
-                    <td align="center">→</td>
-                    <td align="center">→</td>
+                    <td align="center"></td>
+                    <td align="center"></td>
+                    <td align="center"></td>
+                    <td align="center"></td>
+                    <td align="center"></td>
+                    <td align="center"></td>
                     <td align="center">10.0</td>
                     <td align="center">vNext</td>
                 </tr>
                 <tr class="platform-row">
                     <th>Xamarin.Android</th>
                     <td><select /></td>
-                    <td align="center">→</td>
-                    <td align="center">→</td>
-                    <td align="center">→</td>
-                    <td align="center">→</td>
-                    <td align="center">→</td>
-                    <td align="center">→</td>
+                    <td align="center"></td>
+                    <td align="center"></td>
+                    <td align="center"></td>
+                    <td align="center"></td>
+                    <td align="center"></td>
+                    <td align="center"></td>
                     <td align="center">7.0</td>
                     <td align="center">vNext</td>
                 </tr>
                 <tr class="platform-row">
                     <th>Universal Windows Platform</th>
                     <td><select /></td>
-                    <td align="center">→</td>
-                    <td align="center">→</td>
-                    <td align="center">→</td>
-                    <td align="center">→</td>
+                    <td align="center"></td>
+                    <td align="center"></td>
+                    <td align="center"></td>
+                    <td align="center"></td>
                     <td align="center">10.0</td>
-                    <td align="center">→</td>
-                    <td align="center">→</td>
+                    <td align="center"></td>
+                    <td align="center"></td>
                     <td align="center">vNext</td>
                 </tr>
                 <tr class="platform-row">
                     <th>Windows</th>
                     <td><select /></td>
-                    <td align="center">→</td>
+                    <td align="center"></td>
                     <td align="center">8.0</td>
                     <td align="center">8.1</td>
                     <td align="center"></td>
@@ -151,8 +151,8 @@
                 <tr class="platform-row">
                     <th>Windows Phone</th>
                     <td><select /></td>
-                    <td align="center">→</td>
-                    <td align="center">→</td>
+                    <td align="center"></td>
+                    <td align="center"></td>
                     <td align="center">8.1</td>
                     <td align="center"></td>
                     <td align="center"></td>
@@ -255,32 +255,39 @@
                     $("#versiontable tr.platform-row").each(function() {
                         var selector = $(this).find("select:first");
 
+                        var foundMinimumVersion = false;
+
+                        var lastCellWithContent = getColumn($(this).find("td, th").slice(2).filter(function() {
+                            return $(this).text() != "";
+                        }).last());
+
                         $(this).find("td, th").slice(2).each(function() {
                             var text = $(this).text();
-                            if (text != "") {
-                                var col = getColumn($(this));
+                            var col = getColumn($(this));
 
-                                if (col >= index) {
-                                    $(this).attr("class","success");
-                                } else {
+                            if (col <= lastCellWithContent)
+                            {
+                                if (col < index) {
                                     $(this).attr("class","danger");
+                                    $(this).css("background", "").css("color", "");
                                 }
+                                else if (foundMinimumVersion) {
+                                    $(this).attr("class","success");
+                                    $(this).css("background", "").css("color", "");
+                                } else {
+                                    if (text != "") {
+                                        if (selector != netstandardSelector)
+                                            selector.val(text);
+                                        foundMinimumVersion = true;
+                                    }
 
-                                $(this).css("background", "").css("color", "");
+                                    $(this).attr("class", "targetable");
+                                }
                             }
                         });
-                        $(this).find("td, th").slice(2).filter(function() {
-                            var col = getColumn($(this));
-                            var text = $(this).text();
-                            return col >= index && text != "→";
-                        }).first().each(function() {
-                            var text = $(this).text();
-                            if (selector != netstandardSelector)
-                                selector.val(text);
 
-                            if (text != "")
-                                $(this).attr("class", "targetable");
-                        });
+                        if (selector != netstandardSelector && !foundMinimumVersion)
+                            selector.val("");
                     });
                 }
 
@@ -337,7 +344,7 @@
 
                     $(this).find("td, th").slice(2).each(function() {
                         var text = $(this).text();
-                        if (text != "→" && text != "") {
+                        if (text != "") {
                             selector.append($("<option></option>")
                                                 .attr("value", text)
                                                 .text(text + "+"));
@@ -358,8 +365,14 @@
                     });
                 });
 
-                recomputePlatformVersions();
-                updateApiChart();
+                function setNetstandardVersion(value) {
+                    var netstandardSelector = $("#versiontable").find("select:first");
+                    netstandardSelector.val(value);
+                    recomputePlatformVersions();
+                    updateApiChart();
+                }
+
+                setNetstandardVersion("1.4");
             });
         </script>
 
