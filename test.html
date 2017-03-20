@@ -167,6 +167,10 @@
             </tbody>
         </table>
 
+        <div class="checkbox">
+          <label><input id="platformCheckbox" type="checkbox" value="">Enable advanced selection</label>
+        </div>
+
         <div id="line" class="bg-primary"></div>
 
         <hr />
@@ -319,6 +323,7 @@
                         selector.append($("<option></option>")
                                             .attr("value", "")
                                             .text("N/A"));
+                        selector.hide();
                     }
 
                     selector.width("75px");
@@ -329,6 +334,19 @@
                             selector.append($("<option></option>")
                                                 .attr("value", text)
                                                 .text(text + "+"));
+                        }
+                    });
+                });
+
+                $("#platformCheckbox").change(function() {
+                    var isChecked = $(this).is(":checked");
+                    $("#versiontable tr").each(function() {
+                        var selector = $(this).find("select:first");
+                        if (getRow(selector) > 0) {
+                            if (isChecked)
+                                selector.show();
+                            else
+                                selector.hide();
                         }
                     });
                 });
