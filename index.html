@@ -45,7 +45,11 @@
                     <th></th>
                     <th></th>
                     <th colspan="8" style="padding-bottom: 30px;">
-                        <div id="line" class="bg-primary" style="/*background: #bdd7ee;*/ padding: 5px;">
+                        <div id="line-back" style="background: #bdd7ee; padding: 5px;">
+                        </div>
+                        <div id="line" class="bg-primary" style="padding: 5px;">
+                        </div>
+                        <div id="line-text" style="color: white; padding: 5px;">
                             Available API Set
                         </div>
                     </th>
@@ -251,6 +255,8 @@
                     var width = columnWidth * percentage;
 
                     $('#line').css({'width':width, 'height':height, 'left':left, 'top':top, 'position':'absolute'});
+                    $('#line-back').css({'width':columnWidth, 'height':height, 'left':left, 'top':top, 'position':'absolute'});
+                    $('#line-text').css({'width':columnWidth, 'height':height, 'left':left, 'top':top, 'position':'absolute'});
                 }
 
                 function recomputePlatformVersions() {
