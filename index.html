@@ -13,6 +13,10 @@
             background: green;
             color: white;
         }
+
+        .targetable a {
+            color: white;            
+        }
     </style>
 
 </head>
@@ -358,6 +362,10 @@
                             selector.append($("<option></option>")
                                                 .attr("value", text)
                                                 .text(text + "+"));
+                        }
+
+                        if (selectorRow == 0) {
+                            $(this).wrapInner("<a href='https://github.com/dotnet/standard/blob/master/docs/versions/netstandard" + text + ".md'>");
                         }
                     });
                 });
